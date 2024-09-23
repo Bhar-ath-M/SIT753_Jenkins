@@ -145,7 +145,7 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 script {
-                    echo "Deploying the application to production environment..."
+                    echo "Deploying the application to production environment... "
                     echo "Tool Used: AWS EC2 instance"
                     bat '''
                         echo Deploying the application to production environment... > deploy_production.log

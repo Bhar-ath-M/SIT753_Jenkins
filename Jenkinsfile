@@ -13,7 +13,10 @@ pipeline {
                 script {
                     echo "Building the code using Maven. Code is compiled and artifacts are generated..."
                     echo "Tool Used: Maven"
-                    bat 'echo "Building the code using Maven. Code is compiled and artifacts are generated...\nTool Used: Maven" > build.log'
+                    bat '''
+                        echo Building the code using Maven. Code is compiled and artifacts are generated... > build.log
+                        echo Tool Used: Maven >> build.log
+                    '''
                 }
             }
         }
@@ -24,7 +27,11 @@ pipeline {
                     echo "Running the unit and integration tests..."
                     echo "Tool for Unit tests: JUnit"
                     echo "Tool for Integration tests: Selenium"
-                    bat 'echo "Running the unit and integration tests...\nTool for Unit tests: JUnit\nTool for Integration tests: Selenium" > unit_integration_tests.log'
+                    bat '''
+                        echo Running the unit and integration tests... > unit_integration_tests.log
+                        echo Tool for Unit tests: JUnit >> unit_integration_tests.log
+                        echo Tool for Integration tests: Selenium >> unit_integration_tests.log
+                    '''
                 }
             }
             post {
@@ -52,7 +59,10 @@ pipeline {
                 script {
                     echo "Performing code analysis..."
                     echo "Tool Used: SonarQube"
-                    bat 'echo "Performing code analysis...\nTool Used: SonarQube" > code_analysis.log'
+                    bat '''
+                        echo Performing code analysis... > code_analysis.log
+                        echo Tool Used: SonarQube >> code_analysis.log
+                    '''
                 }
             }
         }
@@ -62,7 +72,10 @@ pipeline {
                 script {
                     echo "Running security scan..."
                     echo "Tool Used: SonarQube Security"
-                    bat 'echo "Running security scan...\nTool Used: SonarQube Security" > security_scan.log'
+                    bat '''
+                        echo Running security scan... > security_scan.log
+                        echo Tool Used: SonarQube Security >> security_scan.log
+                    '''
                 }
             }
             post {
@@ -90,7 +103,10 @@ pipeline {
                 script {
                     echo "Deploying the application to staging environment..."
                     echo "Tool Used: AWS EC2 instance"
-                    bat 'echo "Deploying the application to staging environment...\nTool Used: AWS EC2 instance" > deploy_staging.log'
+                    bat '''
+                        echo Deploying the application to staging environment... > deploy_staging.log
+                        echo Tool Used: AWS EC2 instance >> deploy_staging.log
+                    '''
                 }
             }
         }
@@ -100,7 +116,10 @@ pipeline {
                 script {
                     echo "Running integration tests on staging environment..."
                     echo "Tool Used: Selenium"
-                    bat 'echo "Running integration tests on staging environment...\nTool Used: Selenium" > integration_tests_staging.log'
+                    bat '''
+                        echo Running integration tests on staging environment... > integration_tests_staging.log
+                        echo Tool Used: Selenium >> integration_tests_staging.log
+                    '''
                 }
             }
             post {
@@ -128,7 +147,10 @@ pipeline {
                 script {
                     echo "Deploying the application to production environment..."
                     echo "Tool Used: AWS EC2 instance"
-                    bat 'echo "Deploying the application to production environment...\nTool Used: AWS EC2 instance" > deploy_production.log'
+                    bat '''
+                        echo Deploying the application to production environment... > deploy_production.log
+                        echo Tool Used: AWS EC2 instance >> deploy_production.log
+                    '''
                 }
             }
         }

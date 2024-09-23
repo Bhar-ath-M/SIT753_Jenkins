@@ -3,54 +3,134 @@ pipeline {
     agent any
 
     environment {
-        DIRECTORY_PATH = '/path/to/the/code'
-        TESTING_ENVIRONMENT = 'MyTestEnv'
-        PRODUCTION_ENVIRONMENT = 'BharathProdEnv'
+        MY_EMAIL = 'mbpool96@gmail.com'
     }
 
     stages {
 
         stage('Build') {
             steps {
-                echo "fetch the source code from the directory path specified by the environment variable: ${env.DIRECTORY_PATH}"
-                echo "compile the code and generate any necessary artifacts"
+                script {
+                    echo "Building the code using Maven. Code is compiled and artifacts are generated..."
+                    echo "Tool Used: Maven"
+                    sh 'mvn clean package | tee build.log'
+                }
             }
         }
 
-        stage('Test') {
+        stage('Unit and Integration Tests') {
             steps {
-                echo "unit tests"
-                echo "integration tests"
+                script {
+                    echo "Running the unit and integration tests..."
+                    echo "Tool for Unit tests: JUnit"
+                    echo "Tool for Integration tests: Selenium"
+                    sh 'mvn test | tee unit_integration_tests.log'
+                }
+            }
+            post {
+                success {
+                    emailext(
+                        to: "$MY_EMAIL",
+                        subject: "Jenkins Pipeline: Unit/Integration Tests Success",
+                        body: "Unit and Integration Tests have passed.",
+                        attachmentsPattern: 'unit_integration_tests.log'
+                    )
+                }
+                failure {
+                    emailext(
+                        to: "$MY_EMAIL",
+                        subject: "Jenkins Pipeline: Unit/Integration Tests Failed",
+                        body: "Unit and Integration Tests have failed. Check the attached logs for details.",
+                        attachmentsPattern: 'unit_integration_tests.log'
+                    )
+                }
             }
         }
 
-        stage('Code Quality Check') {
+        stage('Code Analysis') {
             steps {
-                echo "check the quality of the code"
+                script {
+                    echo "Performing code analysis..."
+                    echo "Tool Used: SonarQube"
+                    sh 'mvn sonar:sonar | tee code_analysis.log'
+                }
             }
         }
 
-        stage('Deploy') {
+        stage('Security Scan') {
             steps {
-                echo "deploy the application to a testing environment specified by the environment variable: ${env.TESTING_ENVIRONMENT}"
+                script {
+                    echo "Running security scan..."
+                    echo "Tool Used: SonarQube Security"
+                    sh 'mvn sonar:security | tee security_scan.log'
+                }
+            }
+            post {
+                success {
+                    emailext(
+                        to: "$MY_EMAIL",
+                        subject: "Jenkins Pipeline: Security Scan Success",
+                        body: "Security scan completed successfully.",
+                        attachmentsPattern: 'security_scan.log'
+                    )
+                }
+                failure {
+                    emailext(
+                        to: "$MY_EMAIL",
+                        subject: "Jenkins Pipeline: Security Scan Failed",
+                        body: "Security scan failed. Review the attached logs for vulnerabilities.",
+                        attachmentsPattern: 'security_scan.log'
+                    )
+                }
             }
         }
 
-        stage('Approval') {
+        stage('Deploy to Staging') {
             steps {
-                echo "Please provide manual approval"
-                sleep(time: 10, unit: 'SECONDS')
+                script {
+                    echo "Deploying the application to staging environment..."
+                    echo "Tool Used: AWS EC2 instance"
+                    sh 'deploy.sh staging | tee deploy_staging.log'
+                }
+            }
+        }
+
+        stage('Integration Tests on Staging') {
+            steps {
+                script {
+                    echo "Running integration tests on staging environment..."
+                    echo "Tool Used: Selenium"
+                    sh 'run_tests.sh staging | tee integration_tests_staging.log'
+                }
+            }
+            post {
+                success {
+                    emailext(
+                        to: "$MY_EMAIL",
+                        subject: "Jenkins Pipeline: Integration Tests on Staging Success",
+                        body: "Integration Tests on Staging have passed.",
+                        attachmentsPattern: 'integration_tests_staging.log'
+                    )
+                }
+                failure {
+                    emailext(
+                        to: "$MY_EMAIL",
+                        subject: "Jenkins Pipeline: Integration Tests on Staging Failed",
+                        body: "Integration Tests on Staging have failed. Check the attached logs for details.",
+                        attachmentsPattern: 'integration_tests_staging.log'
+                    )
+                }
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                echo "deploy the code to the production environment using the environment variable: ${env.PRODUCTION_ENVIRONMENT}"
+                script {
+                    echo "Deploying the application to production environment..."
+                    echo "Tool Used: AWS EC2 instance"
+                    sh 'deploy.sh production | tee deploy_production.log'
+                }
             }
         }
-
     }
-
 }
-
- 

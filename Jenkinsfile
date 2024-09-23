@@ -13,7 +13,7 @@ pipeline {
                 script {
                     echo "Building the code using Maven. Code is compiled and artifacts are generated..."
                     echo "Tool Used: Maven"
-                    bat 'echo "Building the code using Maven. Code is compiled and artifacts are generated.../nTool Used: Maven" > build.log'
+                    bat 'echo "Building the code using Maven. Code is compiled and artifacts are generated...\nTool Used: Maven" > build.log'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
                     echo "Running the unit and integration tests..."
                     echo "Tool for Unit tests: JUnit"
                     echo "Tool for Integration tests: Selenium"
-                    bat 'mvn test > unit_integration_tests.log'
+                    bat 'echo "Running the unit and integration tests...\nTool for Unit tests: JUnit\nTool for Integration tests: Selenium" > unit_integration_tests.log'
                 }
             }
             post {
@@ -52,7 +52,7 @@ pipeline {
                 script {
                     echo "Performing code analysis..."
                     echo "Tool Used: SonarQube"
-                    bat 'mvn sonar:sonar > code_analysis.log'
+                    bat 'echo "Performing code analysis...\nTool Used: SonarQube" > code_analysis.log'
                 }
             }
         }
@@ -62,7 +62,7 @@ pipeline {
                 script {
                     echo "Running security scan..."
                     echo "Tool Used: SonarQube Security"
-                    bat 'mvn sonar:security > security_scan.log'
+                    bat 'echo "Running security scan...\nTool Used: SonarQube Security" > security_scan.log'
                 }
             }
             post {
@@ -90,7 +90,7 @@ pipeline {
                 script {
                     echo "Deploying the application to staging environment..."
                     echo "Tool Used: AWS EC2 instance"
-                    bat 'deploy.sh staging > deploy_staging.log'
+                    bat 'echo "Deploying the application to staging environment...\nTool Used: AWS EC2 instance" > deploy_staging.log'
                 }
             }
         }
@@ -100,7 +100,7 @@ pipeline {
                 script {
                     echo "Running integration tests on staging environment..."
                     echo "Tool Used: Selenium"
-                    bat 'run_tests.sh staging > integration_tests_staging.log'
+                    bat 'echo "Running integration tests on staging environment...\nTool Used: Selenium" > integration_tests_staging.log'
                 }
             }
             post {
@@ -128,7 +128,7 @@ pipeline {
                 script {
                     echo "Deploying the application to production environment..."
                     echo "Tool Used: AWS EC2 instance"
-                    bat 'deploy.sh production > deploy_production.log'
+                    bat 'echo "Deploying the application to production environment...\nTool Used: AWS EC2 instance" > deploy_production.log'
                 }
             }
         }

@@ -11,9 +11,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    echo "Building the code using Maven. Code is compiled and artifacts are generated..."
-                    echo "Tool Used: Maven"
-                    bat 'mvn clean package > build.log 2>&1'
+                    echo "Building the code using Maven. Code is compiled and artifacts are generated.../nTool Used: Maven > build.log"
+                    //echo "Tool Used: Maven"
+                    //bat 'mvn clean package > build.log 2>&1'
                 }
             }
         }

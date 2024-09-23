@@ -13,7 +13,7 @@ pipeline {
                 script {
                     echo "Building the code using Maven. Code is compiled and artifacts are generated..."
                     echo "Tool Used: Maven"
-                    bat 'mvn clean package | tee build.log'
+                    bat 'mvn clean package > build.log 2>&1'
                 }
             }
         }

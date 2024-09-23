@@ -13,7 +13,7 @@ pipeline {
                 script {
                     echo "Building the code using Maven. Code is compiled and artifacts are generated..."
                     echo "Tool Used: Maven"
-                    sh 'mvn clean package | tee build.log'
+                    bat 'mvn clean package | tee build.log'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
                     echo "Running the unit and integration tests..."
                     echo "Tool for Unit tests: JUnit"
                     echo "Tool for Integration tests: Selenium"
-                    sh 'mvn test | tee unit_integration_tests.log'
+                    bat 'mvn test | tee unit_integration_tests.log'
                 }
             }
             post {
@@ -52,7 +52,7 @@ pipeline {
                 script {
                     echo "Performing code analysis..."
                     echo "Tool Used: SonarQube"
-                    sh 'mvn sonar:sonar | tee code_analysis.log'
+                    bat 'mvn sonar:sonar | tee code_analysis.log'
                 }
             }
         }
@@ -62,7 +62,7 @@ pipeline {
                 script {
                     echo "Running security scan..."
                     echo "Tool Used: SonarQube Security"
-                    sh 'mvn sonar:security | tee security_scan.log'
+                    bat 'mvn sonar:security | tee security_scan.log'
                 }
             }
             post {
@@ -90,7 +90,7 @@ pipeline {
                 script {
                     echo "Deploying the application to staging environment..."
                     echo "Tool Used: AWS EC2 instance"
-                    sh 'deploy.sh staging | tee deploy_staging.log'
+                    bat 'deploy.sh staging | tee deploy_staging.log'
                 }
             }
         }
@@ -100,7 +100,7 @@ pipeline {
                 script {
                     echo "Running integration tests on staging environment..."
                     echo "Tool Used: Selenium"
-                    sh 'run_tests.sh staging | tee integration_tests_staging.log'
+                    bat 'run_tests.sh staging | tee integration_tests_staging.log'
                 }
             }
             post {
@@ -128,7 +128,7 @@ pipeline {
                 script {
                     echo "Deploying the application to production environment..."
                     echo "Tool Used: AWS EC2 instance"
-                    sh 'deploy.sh production | tee deploy_production.log'
+                    bat 'deploy.sh production | tee deploy_production.log'
                 }
             }
         }
